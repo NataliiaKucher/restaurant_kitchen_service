@@ -1,46 +1,87 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %} Actions {% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-  <h1>
-    Dish Types List
-    <a href="{% url 'dish_catalog:dish-type-create' %}" class="btn btn-primary link-to-page">
-      Create
-    </a>
-  </h1>
 
-  {% if dish_type_list %}
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Update</th>
-        <th>Delete</th>
-      </tr>
+    {% include 'includes/navigation-transparent.html' %}
 
-      {% for dish_type in dish_type_list %}
-        <tr>
-          <td>
-              {{ dish_type.id }}
-          </td>
-          <td>
-              {{ dish_type.name }}
-          </td>
-          <td>
-              <a href="{% url 'dish_catalog:dish-type-update' pk=dish_type.id %}">
-                Update
-              </a>
-            </td>
-            <td>
-              <a style="color: red"
-                href="{% url 'dish_catalog:dish-type-delete' pk=dish_type.id %}">
-                Delete
-              </a>
-            </td>
-        </tr>
-      {% endfor %}
-    </table>
+    <header class="bg-gradient-dark">
+        <div class="page-header min-vh-75" style="background-image: url('{{ ASSETS_ROOT }}/img/burger.jpg');">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center mx-auto my-auto">
+                        <h1 class="text-white">Dish Types List</h1>
+                        <p class="lead mb-4 text-white opacity-8">Now you can create your own Dish Type</p>
+                        <button type="submit" class="btn bg-white text-dark"><a
+                                href="{% url 'dish_catalog:dish-type-create' %}">Create</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  {% else %}
-      <p>No dish available.</p>
-  {% endif %}
-{% endblock %}
+    </header>
+
+
+    <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+
+        <form method="get" action="" class="form-inline">
+            {{ search_form|crispy }}
+            <input class="btn btn-secondary **text-white**" type="submit" value="🔍">
+        </form>
+
+        {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">⬅</a>
+                    </li>
+                {% endif %}
+                <li class="page-item-active">
+                    <stan class="page-link">{{ page_obj.number }}</stan>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">➡</a></li>
+                {% endif %}
+
+            </ul>
+        {% endif %}
+
+        {% if dish_type_list %}
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+
+                {% for dish_type in dish_type_list %}
+                    <tr>
+                        <td>
+                            {{ dish_type.name }}
+                        </td>
+                        <td>
+                            <a href="{% url 'dish_catalog:dish-type-update' pk=dish_type.id %}">
+                                Update
+                            </a>
+                        </td>
+                        <td>
+                            <a style="color: red"
+                               href="{% url 'dish_catalog:dish-type-delete' pk=dish_type.id %}">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        {% else %}
+            <p>No dish available.</p>
+        {% endif %}
+  
+    </div>
+
+{% endblock content %}

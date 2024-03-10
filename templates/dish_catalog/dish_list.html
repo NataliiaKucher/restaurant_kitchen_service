@@ -1,21 +1,89 @@
-{% extends "base.html" %}
-
+{% extends "layouts/base.html" %}
+{% load crispy_forms_filters %}
+{% block title %} Actions {% endblock %}
+{% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
-  <h1>
-    Car list
-    <a href="{% url 'taxi:car-create' %}" class="btn btn-primary link-to-page">
-      Create
-    </a>
-  </h1>
-  {% if car_list %}
-    <ul>
-      {% for car in car_list %}
-        <li>
-          <a href="{% url "taxi:car-detail" pk=car.id %} ">{{ car.id }}: {{ car.model }} ({{ car.manufacturer.name }})</a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>There are no cars in taxi</p>
-  {% endif %}
-{% endblock %}
+
+    {% include 'includes/navigation-transparent.html' %}
+
+    <header class="bg-gradient-dark">
+        <div class="page-header min-vh-75" style="background-image: url('{{ ASSETS_ROOT }}/img/tasty.jpg');">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center mx-auto my-auto">
+                        <h1 class="text-white">Dish List</h1>
+                        <p class="lead mb-4 text-white opacity-8">Create your own Dish Type</p>
+                        <button type="submit" class="btn bg-white text-dark"><a
+                                href="{% url 'dish_catalog:dish-create' %}">Create</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+    <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+
+        <form method="get" action="" class="form-inline">
+            {{ search_form|crispy }}
+            <input class="btn btn-secondary **text-white**" type="submit" value="🔍">
+        </form>
+
+        {% if is_paginated %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">⬅</a>
+                    </li>
+                {% endif %}
+                <li class="page-item-active">
+                    <stan class="page-link">{{ page_obj.number }}</stan>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">➡</a></li>
+                {% endif %}
+
+            </ul>
+        {% endif %}
+
+        {% if dish_list %}
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Price €</th>
+                    <th>Description</th>
+                </tr>
+
+                {% for dish in dish_list %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'dish_catalog:dish-detail' pk=dish.id %} ">{{ dish.name }}</a>
+                        </td>
+                        <td>
+                            {{ dish.price }}
+                        </td>
+                        <td>
+                            {{ dish.description }}
+                        </td>
+                        <td>
+                            <a href="{% url 'dish_catalog:dish-update' pk=dish.id %}">
+                                Update
+                            </a>
+                        </td>
+                        <td>
+                            <a style="color: red"
+                               href="{% url 'dish_catalog:dish-delete' pk=dish.id %}">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        {% else %}
+            <p>No dish available.</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}
