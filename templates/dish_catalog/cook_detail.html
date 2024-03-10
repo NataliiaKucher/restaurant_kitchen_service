@@ -1,29 +1,71 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
+{% block title %} Blog Author {% endblock %}
+{% block body_class %} blog-author {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-  <h1>
-      Username: {{ driver.username }}
-      <a href="{% url 'taxi:driver-delete' pk=driver.id %}" class="btn btn-danger link-to-page">Delete</a>
-      <a href="{% url 'taxi:driver-update' pk=driver.id %}" class="btn btn-primary link-to-page">Edit</a>
-  </h1>
-    
 
-  <p><strong>First name:</strong> {{ driver.first_name }}</p>
-  <p><strong>Last name:</strong> {{ driver.last_name }}</p>
-  <p><strong>License number:</strong> {{ driver.license_number }}</p>
-  <p><strong>Is staff:</strong> {{ driver.is_staff }}</p>
+    {% include 'includes/navigation-transparent.html' %}
 
-  <div class="ml-3">
-    <h4>Cars</h4>
+    <header>
+        <div class="page-header min-height-400" style="background-image: url('{{ ASSETS_ROOT }}/img/diss.jpg');"
+             loading="lazy">
+            <span class="mask bg-gradient-dark opacity-8"></span>
+        </div>
+    </header>
 
-    {% for car in driver.cars.all %}
-        <hr>
-        <p><strong>Model:</strong> {{ car.model }}</p>
-        <p><strong>Manufacturer:</strong> {{ car.manufacturer.name }}</p>
-        <p class="text-muted"><strong>Id:</strong> {{car.id}}</p>
+    <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+        <!-- START Testimonials w/ user image & text & info -->
+        <section class="py-sm-7 py-5 position-relative">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mx-auto">
+                        <div class="mt-n8 mt-md-n9 text-center">
+                            <img class="avatar avatar-xxl shadow-xl position-relative z-index-2"
+                                 src="{{ ASSETS_ROOT }}/img/ice.jpg" alt="bruce" loading="lazy">
+                        </div>
+                        <div class="row py-5">
+                            <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                </div>
+                                <div class="row mb-4">
 
-    {% empty %}
-      <p>No cars!</p>
-    {% endfor %}
-  </div>
+                                    <div class="col-auto">
+                                        <span>{{ dish.description }}</span>
+                                    </div>
+                                </div>
+                                <p class="text-lg mb-0">
+                                <div class="ml-3">
+                                    <p><strong>Name:</strong> {{ cook.first_name }} {{ cook.last_name }}</p>
+                                    <p><strong>Years of Experience:</strong> {{ cook.years_of_experience }}</p>
+
+                                    {% for dish in cook.dishes.all %}
+                                        <hr>
+                                        <h4>Dishes</h4>
+                                        <p><strong>Name:</strong> {{ dish.name }}</p>
+                                        <p><strong>Price:</strong> {{ dish.price }}</p>
+                                        <p><strong>Description:</strong> {{ dish.description }}</p>
+                                        <p class="text-muted"><strong>Id:</strong> {{ dish.id }}</p>
+
+                                    {% empty %}
+                                        <p>No dishes!</p>
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'dish_catalog:cook-delete' pk=cook.id %}"
+                                   class="btn btn-danger link-to-page">Delete</a>
+                                <a href="{% url 'dish_catalog:cook-update' pk=cook.id %}"
+                                   class="btn btn-primary link-to-page">Edit</a>
+
+                                </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
 {% endblock %}

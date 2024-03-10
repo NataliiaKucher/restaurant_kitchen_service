@@ -1,32 +1,79 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
+{% block title %} Blog Author {% endblock %}
+{% block body_class %} blog-author {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-  <h1>
-    {{ car.model }}
-  </h1>
-  <p>Manufacturer: ({{ car.manufacturer.name }}, {{ car.manufacturer.country }})</p>
-  <h1>Drivers</h1>
-    {% if currentUser in car.drivers.all %}
-        <a id="removeButton" class="btn btn-danger left-to-page">Delete me from this car</a>
-    {% else %} 
-        <a id="assignButton" href="{% url 'taxi:driver-create' %}" class="btn btn-success left-to-page">Assign me to this car</a>
-    {% endif %}
-  <ul> 
-  
-  <div class="ml-3">
-  
-    {% for driver in car.drivers.all %}
-        <hr>
-        <p><strong>USER NAME:</strong> {{ driver.username }}</p>
-        <p><strong>FULL NAME:</strong> {{ driver.first_name }} {{ driver.last_name }}</p>
-        <p><strong>LICENSE NUMBER:</strong> {{ driver.license_number }}</p>
-        
-    {% empty %}
-        <p>No cars!</p>
-    {% endfor %}
+
+    {% include 'includes/navigation-transparent.html' %}
+
+    <header>
+        <div class="page-header min-height-400" style="background-image: url('{{ ASSETS_ROOT }}/img/dark.jpg');"
+             loading="lazy">
+            <span class="mask bg-gradient-dark opacity-8"></span>
+        </div>
+    </header>
+
+    <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+        <!-- START Testimonials w/ user image & text & info -->
+        <section class="py-sm-7 py-5 position-relative">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mx-auto">
+                        <div class="mt-n8 mt-md-n9 text-center">
+                            <img class="avatar avatar-xxl shadow-xl position-relative z-index-2"
+                                 src="{{ ASSETS_ROOT }}/img/food.jpg" alt="bruce" loading="lazy">
+                        </div>
+                        <div class="row py-5">
+                            <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h2 class="mb-0">{{ dish.name }}</h2>
+                                    <div class="d-block">
+                                        {% if currentUser in dish.cookers.all %}
+                                            <a id="removeButton" class="btn btn-sm btn-outline-info text-nowrap mb-0">Delete
+                                                this Dish for me</a>
+                                        {% else %}
+                                            <a id="assignButton" href="{% url 'dish_catalog:cook-create' %}"
+                                               class="btn btn-sm btn-outline-info text-nowrap mb-0">Assign me to this
+                                                dish</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-auto">
+                                        <span class="h6">{{ dish.dish_type.name }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span>{{ dish.description }}</span>
+                                    </div>
+                                </div>
+                                <p class="text-lg mb-0">
+                                <div class="ml-3">
+                                    {% for cook in dish.cookers.all %}
+                                        <hr>
+                                        <p><strong>USER NAME:</strong> {{ cook.username }}</p>
+                                        <p><strong>FULL NAME:</strong> {{ cook.first_name }} {{ cook.last_name }}</p>
+                                        <p><strong>YEAR OF EXPERIENCE:</strong> {{ cook.years_of_experience }}</p>
+
+                                    {% empty %}
+                                        <p>No dish!</p>
+                                    {% endfor %}
+                                </div>
+
+                                <a href="{% url 'dish_catalog:dish-delete' pk=dish.id %}"
+                                   class="btn btn-danger left-to-page">Delete</a>
+                                <a href="{% url 'dish_catalog:dish-update' pk=dish.id %}"
+                                   class="btn btn-secondary left-to-page">Update</a>
+                                </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-  
-    <a href="{% url 'taxi:car-delete' pk=car.id %}" class="btn btn-danger left-to-page">Delete</a>
-    <a href="{% url 'taxi:car-update' pk=car.id %}" class="btn btn-secondary left-to-page">Update</a>
-  </ul>  
+
 {% endblock %}
