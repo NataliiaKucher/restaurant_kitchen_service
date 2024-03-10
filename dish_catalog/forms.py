@@ -6,11 +6,11 @@ from django.core.validators import MinValueValidator
 from .models import Cook, Dish
 
 
-class CooksExperienceYearForm(UserCreationForm):
+class CooksExperienceYearCreateForm(UserCreationForm):
     years_of_experience = forms.IntegerField(
         required=True,
-        validators=[MinValueValidator(2)],
-        help_text="Enter your years of experience (at least 2 years required)."
+        validators=[MinValueValidator(1)],
+        help_text="Enter your years of experience (at least 1 years required)."
     )
 
     class Meta(UserCreationForm.Meta):
@@ -22,7 +22,7 @@ class CooksExperienceYearForm(UserCreationForm):
         )
 
 
-class CookForm(forms.ModelForm):
+class DishForm(forms.ModelForm):
     cooks = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -31,20 +31,60 @@ class CookForm(forms.ModelForm):
 
     class Meta:
         model = Dish
-        fields = "__all__"
+        exclude = ("cookers",)
 
 
 class CooksExperienceYearUpdateForm(forms.ModelForm):
     years_of_experience = forms.IntegerField(
         required=True,
-        validators=[MinValueValidator(2)],
-        help_text="Enter your years of experience (at least 2 years required)."
+        validators=[MinValueValidator(1)],
+        help_text="Enter your years of experience (at least 1 years required)."
     )
 
     class Meta:
         model = Cook
-        fields = ("years_of_experience",)
+        fields = (
+            "first_name",
+            "last_name",
+            "years_of_experience",
+        )
 
-    def clean_license_number(self):
+    def clean_years_of_experience(self):
         years_of_experience = self.cleaned_data["years_of_experience"]
         return years_of_experience
+
+
+class DishSearchForm(forms.Form):
+    dish_name = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by name"
+            }
+        )
+    )
+
+
+class CookSearchForm(forms.Form):
+    username = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by username"
+            }
+        )
+    )
+
+
+class DishTypeSearchForm(forms.Form):
+    name_dish_type = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by type"
+            }
+        )
+    )
