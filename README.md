@@ -7,8 +7,7 @@ Python3 should be already installed
 ## Developing
 
 Here's a brief intro about what a developer must do in order to start developing the project further:
-
-git clone https://github.com/restaurant_kitchen_service.git
+git clone https://github.com/NataliiaKucher/restaurant_kitchen_service.git
 cd restaurant_kitchen_service/
 python3 -m venv venv
 source venv/bin/activate
