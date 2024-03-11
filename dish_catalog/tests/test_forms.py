@@ -38,14 +38,14 @@ class DishSearchFormTest(TestCase):
     def test_form_rendering(self):
         form = DishSearchForm()
         expected_html = (
-            "<input type='text' name='name' "
+            "<input type='text' name='dish_name' "
             "placeholder='Search by name' maxlength='255' "
-            "id='id_name'>"
+            "id='id_dish_name'>"
         )
-        self.assertHTMLEqual(str(form["name"]), expected_html)
+        self.assertHTMLEqual(str(form["dish_name"]), expected_html)
 
     def test_form_validation(self):
-        form = DishSearchForm(data={"name": "Varenuky"})
+        form = DishSearchForm(data={"dish_name": "Varenuky"})
         self.assertTrue(form.is_valid())
         form = DishSearchForm(data={})
         self.assertTrue(form.is_valid())
