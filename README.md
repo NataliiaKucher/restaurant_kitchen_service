@@ -2,6 +2,12 @@
 
 [Restaurant project deployed to Render](https://restaurant-kitchen-service-u24o.onrender.com)
 
+you can use tests username and password to check website functionality:
+
+username: user
+
+password: user12345
+
 ## Installing / Getting started!
 
 Python3 should be already installed
@@ -9,11 +15,17 @@ Python3 should be already installed
 ## Developing
 
 Here's a brief intro about what a developer must do in order to start developing the project further:
+
 git clone https://github.com/NataliiaKucher/restaurant_kitchen_service.git
+
 cd restaurant_kitchen_service/
+
 python3 -m venv venv
+
 source venv/bin/activate
+
 pip install -r requirements.txt
+
 python manage.py runserver #start Django server
 
 
