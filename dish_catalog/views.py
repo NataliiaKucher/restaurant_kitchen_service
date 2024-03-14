@@ -1,14 +1,16 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.csrf import csrf_protect
 
 from .forms import (
     CooksExperienceYearCreateForm,
     CooksExperienceYearUpdateForm,
     DishForm,
-    DishTypeSearchForm, DishSearchForm, CookSearchForm
+    DishTypeSearchForm, DishSearchForm, CookSearchForm, RegisterForm
 )
 from .models import Dish, DishType, Cook
 
@@ -31,6 +33,18 @@ def index(request):
     }
 
     return render(request, "dish_catalog/index.html", context=context)
+
+
+@csrf_protect
+def register(response):
+    if response.method == "POST":
+        form = RegisterForm(response.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("/")
+    else:
+        form = RegisterForm()
+    return render(response, "registration/register.html", {"form": form})
 
 
 class DishTypeListView(LoginRequiredMixin, generic.ListView):
