@@ -88,3 +88,10 @@ class DishTypeSearchForm(forms.Form):
             }
         )
     )
+
+
+class RegisterForm(UserCreationForm):
+
+    class Meta:
+        model = get_user_model()
+        fields = ["username", "password1", "password2"]

@@ -9,7 +9,7 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    
+
 
     <div class="page-header align-items-start min-vh-100"
          style="background-image: url('{{ ASSETS_ROOT }}/img/lime.jpg?format&fit=crop&w=1950&q=80');">
@@ -37,6 +37,11 @@
                                     <input class="form-check-input" type="checkbox" id="rememberMe">
                                     <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label>
                                 </div>
+                                <p class="mt-4 text-sm text-center">
+                                    Don't have an account?
+                                    <a href="{% url 'register' %}" class="text-primary text-gradient font-weight-bold">Sign
+                                        UP</a>
+                                </p>
                             </form>
 
                         </div>
