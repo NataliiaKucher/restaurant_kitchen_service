@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from os import getenv
+from dotenv import load_dotenv
 import dj_database_url
 from django.template.context_processors import static
 from pathlib import Path
@@ -85,14 +87,16 @@ WSGI_APPLICATION = "restaurant_kitchen_service.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+  'default': {
+    'ENGINE': os.environ.get('db_engine', 'django.db.backends.postgresql'),
+    'NAME': os.environ.get('db_name'),
+    'USER': os.environ.get('db_user'),
+    'PASSWORD': os.environ.get('db_password'),
+    'HOST': os.environ.get('db_host'),
+    'PORT': os.environ.get('db_port', '5432'),
+    'OPTIONS': {'sslmode': 'require'},
+  }
 }
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES["default"].update(db_from_env)
 
 
 # Password validation
