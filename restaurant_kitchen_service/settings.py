@@ -87,14 +87,14 @@ WSGI_APPLICATION = "restaurant_kitchen_service.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-  'default': {
-    'ENGINE': os.environ.get('db_engine', 'django.db.backends.postgresql'),
-    'NAME': os.environ.get('db_name'),
-    'USER': os.environ.get('db_user'),
-    'PASSWORD': os.environ.get('db_password'),
-    'HOST': os.environ.get('db_host'),
-    'PORT': os.environ.get('db_port', '5432'),
-    'OPTIONS': {'sslmode': 'require'},
+  "default": {
+    "ENGINE": os.environ.get('db_engine', 'django.db.backends.postgresql'),
+    "NAME": os.environ.get('db_name'),
+    "USER": os.environ.get('db_user'),
+    "PASSWORD": os.environ.get('db_password'),
+    "HOST": os.environ.get('db_host'),
+    "PORT": os.environ.get('db_port', '5432'),
+    "OPTIONS": {'sslmode': 'require'},
   }
 }
 
